@@ -179,30 +179,6 @@ X_test_noisy = X_test + noise_factor * tf.random.normal(shape=X_test.shape)
 # X_train_noisy = tf.clip_by_value(X_train_noisy, clip_value_min=0, clip_value_max=1)
 
 model = AE_model()
-'''# define the grid search parameters
-model_grid = KerasRegressor(build_fn=model.build_model(), epochs=10, batch_size=32, verbose=0)
-parameters = {'neurons': [4, 8, 16, 32, 64]}
-grid = GridSearchCV(estimator=model_grid, param_grid=parameters, n_jobs=-1, cv=5)
-grid_result = grid.fit(X_val, X_val)
-
-
-print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
-means = grid_result.cv_results_['mean_test_score']
-stds = grid_result.cv_results_['std_test_score']
-params = grid_result.cv_results_['params']
-for mean, stdev, param in zip(means, stds, params):
-    print("%f (%f) with: %r" % (mean, stdev, param)
-
-model = KerasClassifier(build_fn=create_cnn_model, verbose=1)
-# define parameters and values for grid search 
-param_grid = {
-    'pool_type': ['max', 'average'],
-    'conv_activation': ['sigmoid', 'tanh'],    
-    'epochs': [n_epochs_cv],
-}
-
-grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=-1, cv=n_cv)
-grid_result = grid.fit(X_train, to_categorical(y_train))'''
 
 os.chdir(os.path.join(cwd, 'Project_AutoEncoder'))
 # plot accuracy on training and validation data
@@ -217,9 +193,10 @@ plt.show()
 # If the model is saved, switch it on and not need to fit each time.
 # model = tf.keras.models.load_model('AE_model_K.h5')  # Shifted
 
-# del noised
-#######################
+# del noised testing
 print(model.summary())
+
+# Check your model layers
 '''print(model.layers)
 inp = model.input  # input
 outputs = [layer.output for layer in model.layers]
